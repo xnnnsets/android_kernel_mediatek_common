@@ -546,7 +546,7 @@ int ip6_forward(struct sk_buff *skb)
 		if (ip6_call_ra_chain(skb, ntohs(opt->ra)))
 			return 0;
 	}
-
+#if 0
 	/*
 	 *	check and decrement ttl
 	 */
@@ -557,7 +557,7 @@ int ip6_forward(struct sk_buff *skb)
 		kfree_skb_reason(skb, SKB_DROP_REASON_IP_INHDR);
 		return -ETIMEDOUT;
 	}
-
+#endif
 	/* XXX: idev->cnf.proxy_ndp? */
 	if (net->ipv6.devconf_all->proxy_ndp &&
 	    pneigh_lookup(&nd_tbl, net, &hdr->daddr, skb->dev, 0)) {
@@ -659,9 +659,9 @@ int ip6_forward(struct sk_buff *skb)
 	hdr = ipv6_hdr(skb);
 
 	/* Mangling hops number delayed to point after skb COW */
-
+#if 0
 	hdr->hop_limit--;
-
+#endif
 	return NF_HOOK(NFPROTO_IPV6, NF_INET_FORWARD,
 		       net, NULL, skb, skb->dev, dst->dev,
 		       ip6_forward_finish);
